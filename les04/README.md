@@ -1,0 +1,8 @@
+# Contents
+ * Phoenix basic operations
+ * How Phoenix applies MVC
+ * Using an umbrella project
+ * Adding pages
+ * Making a database
+ * Working with associations
+ * Folder structure (contexts, schemas, views, templates)
