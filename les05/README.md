@@ -1,3 +1,3 @@
 # Contents
- * REST and GraphQL
+ * REST
 

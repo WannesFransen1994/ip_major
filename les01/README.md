@@ -1,4 +1,5 @@
 # Contents
- * introduction
- * distributed application course => first lesson learn Elixir
- * https://github.com/UCLeuvenLimburg/distributed-applications
+
+* Introduction
+* Distributed application course => first lesson learn Elixir
+* https://github.com/UCLeuvenLimburg/distributed-applications
