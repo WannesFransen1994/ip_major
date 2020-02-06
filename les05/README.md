@@ -1,3 +1,4 @@
 # Contents
- * REST
+ * Associations in Ecto
+ * CRUD
 
