@@ -1,4 +1,4 @@
 # Contents
- * Associations in Ecto
- * CRUD
 
+* CRUD
+* Associations in Ecto

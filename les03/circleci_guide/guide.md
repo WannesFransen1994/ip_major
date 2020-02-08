@@ -372,7 +372,7 @@ Push and you'll be able to see your `.xml` files in your artifact step.
 ## Notes / TODO
 
 * use environment variables with circleci and the config test.exs file. This will provide better "switchability" between local testing environment and circleci testing environment
-* properly configure db environment
+* properly configure db [environment](http://blog.plataformatec.com.br/2016/05/how-to-config-environment-variables-with-elixir-and-exrm/)
 * Github badge
 * properly document db port section
 * You can create a pdf version of this document with the command `pandoc guide.md -o guide.pdf`
