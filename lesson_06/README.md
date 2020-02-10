@@ -2,4 +2,4 @@
 
 * REST
 * Router pipelines
-* plugs
+* plugs intro
