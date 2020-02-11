@@ -233,5 +233,3 @@ Then we'll create the templates. First we'll create the folder `templates/user/`
 So what exactly is happening here? First we create a for with the `form_for` macro. We pass the changeset (formdata) to it and it'll automatically match the values to the fields. After that we give a path to where the post request needs to be sent. Finally we use the anonymous function f to build our form.
 
 When you try it out, you can make a new user and it'll show nice flash messages. These messages are also parsed thanks to plugs in the browser pipeline (check your `router.ex` file).
-
-
