@@ -42,6 +42,13 @@ Remember to run `mix deps.get` after adjusting this file.
 
 ### Implementation module
 
+Because we want to pattern match on our `get_user/1` function, we don't want to use the bang version that's generated in our `UserContext`. Let us implement another one:
+
+```elixir
+  # UserContext
+  def get_user(id), do: Repo.get(User, id)
+```
+
 We'll also need to have some kind of implementation module in order to tell Guardian how we identify our token and how it should retrieve this resource. We do that with an implementation module like so:
 
 ```elixir
@@ -259,3 +266,7 @@ end
 </div>
 <% end %>
 ```
+
+### Properly configuring our routes
+
+We'll do this in the next section. If you run your app now, you'll have to put in some URL's manually.

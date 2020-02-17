@@ -13,7 +13,7 @@ This guide is to demonstrate how we can rather quickly achieve a simple project 
 First we'll create a user resource as we've done before. The User resource will store a role attribute which can be `User`, `Manager` or `Admin`. The CRUD operations to create/delete/delete users should of course be limited to the `Admin`role. First we'll create the resource:
 
 ```bash
- mix phx.gen.context UserContext User users username:string hashed_password:string role:string
+ mix phx.gen.html UserContext User users username:string hashed_password:string role:string
 ```
 
 After which we add the resources routes as well. Next we'll configure that our password should be hashed. Do that with one of the `comeonin` packages. For Argon this would be the following dependency:
@@ -31,7 +31,7 @@ _Note that windows can have some issues with compiling this module. Feel free to
 Next we'll adjust our schema like so:
 
 ```elixir
-defmodule AuthRef.UserContext.User do
+defmodule Auth.UserContext.User do
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -139,23 +139,41 @@ end
 
 We've also adjusted our auto-generated template to ask for the virtual password (and not the hashed password) in our form.
 
+### Database integrity
+
+In order to force our users to provide all the information at the database level, adjust your migration file.
+
+```elixir
+defmodule Auth.Repo.Migrations.CreateUsers do
+  use Ecto.Migration
+
+  def change do
+    create table(:users) do
+      add :username, :string, null: false
+      add :hashed_password, :string, null: false
+      add :role, :string, null: false
+    end
+  end
+end
+```
+
 ### Seeding your database
 
 This should normally enough to set up your resource. While this is great, after we've added authentication we'll want some kind of default user accounts. Let us adjust the file in `apps/auth/priv/repo/seeds.exs`:
 
 ```elixir
 {:ok, _cs} =
-  AuthRef.UserContext.create_user(%{"password" => "t", "role" => "User", "username" => "user"})
+  Auth.UserContext.create_user(%{"password" => "t", "role" => "User", "username" => "user"})
 
 {:ok, _cs} =
-  AuthRef.UserContext.create_user(%{
+  Auth.UserContext.create_user(%{
     "password" => "t",
     "role" => "Manager",
     "username" => "manager"
   })
 
 {:ok, _cs} =
-  AuthRef.UserContext.create_user(%{"password" => "t", "role" => "Admin", "username" => "admin"})
+  Auth.UserContext.create_user(%{"password" => "t", "role" => "Admin", "username" => "admin"})
 ```
 
 Run `mix ecto.reset` and you should see some green debug output. Verify manually that the passwords are stored safely in your database as a hash.

@@ -142,8 +142,8 @@ In order to demonstrate specific roles, we'll use a page that'll print for who i
 As we've already seen what our router expects, let us quickly implement the necessary actions in our controller.
 
 ```elixir
-defmodule AuthRefWeb.PageController do
-  use AuthRefWeb, :controller
+defmodule AuthWeb.PageController do
+  use AuthWeb, :controller
 
   def index(conn, _params) do
     render(conn, "index.html", role: "everyone")
