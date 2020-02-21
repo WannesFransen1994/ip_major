@@ -2,7 +2,12 @@
 
 ## CircleCI free credits
 
-You can always check your free build minutes (that refresh weekly) when you press your profile icon -> organization plans -> view plan -> plan usage. Be careful with this so that you don't run out on the exam, this is solely your responsibility to manage this.
+The UI is changing, so depending on your UI you can check your free build minutes at:
+
+* profile icon -> organization plans -> view plan -> plan usage.
+* Somewhere on the left should be a "Settings" button -> plan usage (select the correct organisation).
+
+Be careful with this so that you don't run out on the exam, this is solely your responsibility to manage this.
 
 ## Link to CircleCI
 
@@ -167,7 +172,7 @@ to:
 
 ### [INCOMPLETE] update your test result path as suggested by the docs:
 
-You'll see en caps that you have to replace a variable with your project name. Let's do that for now, so that we'll see that this doesn't work properly with umbrella apps and default configurations.
+You'll see in caps that you have to replace a variable with your project name. Let's do that for now, so that we'll see that this doesn't work properly with umbrella apps and default configurations.
 
 ```yml
       - store_test_results:  # upload junit test results for display in Test Summary

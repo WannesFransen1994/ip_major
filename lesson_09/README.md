@@ -1,3 +1,4 @@
 # Contents
- * Webpack
- * labo sessie
+
+* Webpack
+* Lab session

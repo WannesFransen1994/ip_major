@@ -67,7 +67,7 @@ end
 
 _Note that we've adjusted `:hashed_password` to `:password` in our `cast` and `validate_required` parameters._
 
-There are several new things here. First of all the `virtual field`, this is to `TODO: VERIFY WITH DOCS` illustrate that we have a virtual field, a field which is not mapped by a column in our database. This could be used for extra input, custom computation / verification implementations. There are also options without this virtual field, but personally I like the explicicity of this field to illustrate its purposes.
+There are several new things here. First of all the `virtual field`, this is to illustrate that we have a virtual field, a field which is not mapped by a column in our database. This could be used for extra input, custom computation / verification implementations. There are also options without this virtual field, but personally I like the explicicity of this field to illustrate its purposes.
 
 After which we validate whether our provided role is "acceptable" with `validate_inclusion(changeset, field, has_to_be_in_this_enumerable)`. We also have a multi-clause function that pattern matches whether the provided data is valid or not. We do the hashing at the last step so that we don't waste CPU resources when the data is invalid. Likewise, if you'd add password complexity constraints, you'd put these before the last hashing step.
 
