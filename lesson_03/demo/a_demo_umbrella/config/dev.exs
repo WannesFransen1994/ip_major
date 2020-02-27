@@ -2,12 +2,12 @@ use Mix.Config
 
 # Configure your database
 config :a_demo, ADemo.Repo,
-  username: "root",
-  password: "",
-  database: "a_demo_dev",
-  hostname: "localhost",
+  username: System.get_env("DB_USER") || "root",
+  password: System.get_env("DB_PASSWORD") || "t",
+  database: System.get_env("DB_NAME") || "a_demo_dev",
+  hostname: System.get_env("DB_HOST") || "localhost",
   show_sensitive_data_on_connection_error: true,
-  pool_size: 10
+  pool_size: System.get_env("DB_POOL_SIZE", "1") |> Integer.parse() |> elem(0)
 
 # For development, we disable any cache and enable
 # debugging and code reloading.

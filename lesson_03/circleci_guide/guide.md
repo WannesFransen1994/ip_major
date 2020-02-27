@@ -1,33 +1,76 @@
 # Integration with CircleCI
 
-## CircleCI free credits
+## CircleCI
 
-The UI is changing, so depending on your UI you can check your free build minutes at:
+We've chosen for CircleCI as the CI/CD platform as it has free build minutes and a rather good support for Elixir. The boilerplate config is a little bit outdated, but we'll fix that later on.
+
+### Free credits
+
+Before we start with creating projects, verify that you have free build minutes. Take note that the UI is changing, so depending on your UI you can check your free build minutes at:
 
 * profile icon -> organization plans -> view plan -> plan usage.
 * Somewhere on the left should be a "Settings" button -> plan usage (select the correct organisation).
 
 Be careful with this so that you don't run out on the exam, this is solely your responsibility to manage this.
 
-## Link to CircleCI
+## Create your repo
 
-I assume you can work with a dashboard, add your project and start building. This will definitely fail, which is normal.
+This should be obvious. Go to [GitHub](www.github.com), press the big green plus sign, you know, the one for a new repository. Then you'll create a clean project with no readme/gitignore.
 
-## initialising the project
+## Phoenix
 
-### Creating it
+### [You should be able to do this on your own] install phoenix
 
-Create a new phoenix project:
+[Link](https://hexdocs.pm/phoenix/installation.html#content)
+
+```bash
+mix local.hex
+mix archive.install hex phx_new 1.4.14 # This can change, follow the website
+```
+
+Later on you'll need nodejs etc... as well. That's not for now.
+
+### Generating a skeleton project
+
+Create a new phoenix project in whatever folder you want:
 
 ```bash
 mix phx.new a_demo --umbrella --database mysql
 ```
 
-Answer "Yes" to questions, it'll most likely be necessary. After that make a private github repository and push it.
+Answer "Yes" to questions, it'll most likely be necessary. You'll see a new folder `a_demo_umbrella`. `cd` into that folder, when you execute `ls` / `dir` you should see something like:
 
-### making necessary branches
+```text
+total 64K
+drwxr-xr-x 10 wannes wannes 4.0K Feb 24 10:15 .
+drwxr-xr-x 18 wannes wannes 4.0K Feb 24 09:10 ..
+drwxr-xr-x  4 wannes wannes 4.0K Feb  4 09:53 apps
+drwxrwxr-x  3 wannes wannes 4.0K Feb 24 10:15 _build
+drwxr-xr-x  2 wannes wannes 4.0K Feb  4 14:39 config
+drwxr-xr-x 27 wannes wannes 4.0K Feb 24 10:14 deps
+-rw-r--r--  1 wannes wannes  593 Feb  4 09:53 mix.exs
+-rw-rw-r--  1 wannes wannes 7.3K Feb 24 10:14 mix.lock
+-rw-r--r--  1 wannes wannes   15 Feb  4 09:53 README.md
+```
 
-Make a dev branch, we'll use the master branch as the production branch for now. __Checkout to the dev branch.__
+Make a gitignore file with the following [contents](http://gitignore.io/api/node,elixir,phoenix). After that execute the following commands:
+
+```bash
+git init
+git commit -m "skeleton project commit"
+git remote add origin [YOUR LINK | HTTPS OR SSH VERSION]
+git push -u origin master
+
+# Now we'll make a dev branch. You can use master as production
+git checkout -b dev
+git push --set-upstream origin dev
+```
+
+## Getting started with CircleCI
+
+When you go to the CircleCI dashboard, there should be a button "Add project". When you add the project, select "Start building". If it asks you whether to configure it manually, do so. If you just click next like a lot of Windows users do, it'll create a new circleci-project-setup branch, which you can delete as we'll configure it manually.
+
+## Initialising the project
 
 ### Creating the config files
 
@@ -44,6 +87,7 @@ jobs:  # basic units of work in a run
       - image: circleci/elixir:1.7.3  # ...with this image as the primary container; this is where all `steps` will run
         environment:  # environment variables for primary container
           MIX_ENV: test
+          TEST_DB_POOL_SIZE: "${TODO}"
       - image: circleci/postgres:10.1-alpine  # database image
         environment:  # environment variables for database
           POSTGRES_USER: postgres
@@ -100,15 +144,19 @@ We'll adjust this later on.
 
 ## Configuring our database
 
-### application config
+I'll assume that you'll have a local database. If not, make 2 databases on [remotemysql](https://remotemysql.com/databases.php). One will be for your local development process and the other one for your local test environment. Due to best practices, these 2 databases are seperated.
+
+### Application config
 
 First of all we'll want to adjust our database. In your `/config/dev.exs` and `test.exs` file you'll want to adjust your database settings to a user and password that is correctly configured.
 
-### circleci config
+### CircleCI config
 
-#### environment
+#### Environment
 
-first of all, delete following lines:
+Note that depending on your preferences, you can either use PostgreSQL or MySQL. This has very little impact on your code and development process. Out of convenience, I'd like to suggest MySQL, but the choice is completely up to you.
+
+First of all, delete following lines:
 
 ```yml
       - image: circleci/postgres:10.1-alpine  # database image
@@ -130,13 +178,13 @@ _Yes we are lazy and we will just configure our app with root access for the tes
 
 Make sure that the `config.yml` file parameters match with your `config/test.exs` file parameters.
 
-#### port
+#### Port
 
 Default mysql runs on port 3306, so replace the port `5432` with `3306`. Know what this part of the config does.
 
-## other CircleCI config settings
+## Other CircleCI config settings
 
-### workspace
+### Workspace
 
 Default (in CircleCi) steps are ran in the /home/circleci/project folder. In this folder, circleci creates by default the app folder. We'll not do this and just use the home folder to clone our app in. This means that the following config:
 
@@ -170,17 +218,99 @@ to:
       - image: circleci/elixir:1.9  # or 1.10, up to you
 ```
 
-### [INCOMPLETE] update your test result path as suggested by the docs:
+### [INCOMPLETE] update your test result path as suggested by the docs
 
 You'll see in caps that you have to replace a variable with your project name. Let's do that for now, so that we'll see that this doesn't work properly with umbrella apps and default configurations.
 
 ```yml
       - store_test_results:  # upload junit test results for display in Test Summary
           # Read more: https://circleci.com/docs/2.0/collect-test-data/
-          path: _build/test/lib/a_demo # Replace 
+          path: _build/test/lib/a_demo # Replace
 ```
 
 _Note that you have to use junit-formatted test results. We'll configure this later._
+
+### Environment variables
+
+Right now we're putting everything hardcoded in our config and on GitHub. If it is a local database, this might be acceptable. Though if you're using a remote database such as remotemysql, then you don't want to put this online, but as environment variables. First let us do this locally:
+
+```bash
+# Generated from remotemysql, dev database:
+# Username: fHa40qWi8M
+# DB name:  fHa40qWi8M
+# Password: CWrI6blniw
+# Server:   remotemysql.com
+# Port:     3306
+
+# Generated from remotemysql, test database:
+# Username: 7sBfdtyf9r
+# DB name:  7sBfdtyf9r
+# Password: 8rIcO1qKcb
+# Server:   remotemysql.com
+# Port:     3306
+```
+
+We'll use this for our development database, which we'll configure in our `config/dev.exs`:
+
+```elixir
+# Configure your database
+config :a_demo, ADemo.Repo,
+  username: System.get_env("DB_USER") || "root",
+  password: System.get_env("DB_PASSWORD") || "t",
+  database: System.get_env("DB_NAME") || "a_demo_dev",
+  hostname: System.get_env("DB_HOST") || "localhost",
+  show_sensitive_data_on_connection_error: true,
+  pool_size: System.get_env("DB_POOL_SIZE") |> Integer.parse() |> elem(0) || 10
+```
+
+This way we can use the localhost database (with user "root" and pwd "t") as default values. This will be similar in our test environment config file `config/test.exs`:
+
+```elixir
+config :a_demo, ADemo.Repo,
+  username: System.get_env("TEST_DB_USER") || "root",
+  password: System.get_env("TEST_DB_PASSWORD") || "t",
+  database: System.get_env("TEST_DB_NAME") || "a_demo_test",
+  hostname: System.get_env("TEST_DB_HOST") || "localhost",
+  pool: Ecto.Adapters.SQL.Sandbox,
+  pool_size: System.get_env("TEST_DB_POOL_SIZE") |> Integer.parse() |> elem(0) || 1
+```
+
+Note that in your `.circleci/config.yml`, you are configuring your database access credentials. This is because on the CircleCI server, a new database is set up (in docker), which your application will connect to. In order to let it connect to that database, you're configuring your `config/test.exs`. It is important that when you run `mix test` locally, you'll want to use the remotemysql database whilst when the same command is ran on the CircleCI platform, it should then use the local databse. Now you'll want to export these values so that your database can use this:
+
+```bash
+mkdir [GITIGNORED_FOLDER]
+cd [GITIGNORED_FOLDER]
+nano local_myscript.sh
+#### CONTENTS
+export DB_HOST=remotemysql.com
+export DB_USER=fHa40qWi8M
+export DB_NAME=fHa40qWi8M
+export DB_PASSWORD=CWrI6blniw
+export DB_POOL_SIZE=1
+
+export TEST_DB_HOST=remotemysql.com
+export TEST_DB_USER=7sBfdtyf9r
+export TEST_DB_NAME=7sBfdtyf9r
+export TEST_DB_PASSWORD=8rIcO1qKcb
+export TEST_DB_POOL_SIZE=1
+### EOF
+# Now run the source command with the file location
+source [GITIGNORED_FOLDER]/local_myscript.sh
+```
+
+If you run `mix ecto.reset` in your `apps/a_demo` folder, you'll see that the database is created/ reset. Good job!
+
+#### CircleCI variables
+
+We'll go over a quick example how we can configure our environment variables in CircleCI. Adjust your config.yml:
+
+```yml
+        environment:  # environment variables for primary container
+          MIX_ENV: test
+          TEST_DB_POOL_SIZE: "${MY_CIRCLECI_POOL_SIZE}"
+```
+
+After that you can go to your CircleCI dashboard and add the variable `MY_CIRCLECI_POOL_SIZE`, and set it to e.g. 10. This menu can be found under your project settings.
 
 ## Test locally
 
@@ -289,7 +419,7 @@ Now run your tests and see what happens. The ouput is still the same, but now we
 
 ### Aggregating our test reports
 
-While we could point our CircleCI config to the upperlying folder and let it recursively scan for all test `.xml` files, that's a bit error prone. We'll aggregate our test reports in a single folder. We do this with the following config:
+While we could point our CircleCI config to the upperlying folder and let it recursively scan for all test `.xml` files, that's a bit error prone. We'll aggregate our test reports in a single folder. We do this with the following config in our `config/config.exs` file:
 
 ```elixir
 config :junit_formatter,
@@ -376,8 +506,5 @@ Push and you'll be able to see your `.xml` files in your artifact step.
 
 ## Notes / TODO
 
-* use environment variables with circleci and the config test.exs file. This will provide better "switchability" between local testing environment and circleci testing environment
-* properly configure db [environment](http://blog.plataformatec.com.br/2016/05/how-to-config-environment-variables-with-elixir-and-exrm/)
 * Github badge
-* properly document db port section
 * You can create a pdf version of this document with the command `pandoc guide.md -o guide.pdf`
