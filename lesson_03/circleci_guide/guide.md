@@ -508,3 +508,8 @@ Push and you'll be able to see your `.xml` files in your artifact step.
 
 * Github badge
 * You can create a pdf version of this document with the command `pandoc guide.md -o guide.pdf`
+
+## Special thanks
+
+* Abel Van den Briel
+* Axel Hamelryck
