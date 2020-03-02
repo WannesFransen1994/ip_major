@@ -260,7 +260,7 @@ config :a_demo, ADemo.Repo,
   database: System.get_env("DB_NAME") || "a_demo_dev",
   hostname: System.get_env("DB_HOST") || "localhost",
   show_sensitive_data_on_connection_error: true,
-  pool_size: System.get_env("DB_POOL_SIZE") |> Integer.parse() |> elem(0) || 10
+  pool_size: (System.get_env("DB_POOL_SIZE") || "10") |> Integer.parse() |> elem(0)
 ```
 
 This way we can use the localhost database (with user "root" and pwd "t") as default values. This will be similar in our test environment config file `config/test.exs`:
@@ -272,7 +272,7 @@ config :a_demo, ADemo.Repo,
   database: System.get_env("TEST_DB_NAME") || "a_demo_test",
   hostname: System.get_env("TEST_DB_HOST") || "localhost",
   pool: Ecto.Adapters.SQL.Sandbox,
-  pool_size: System.get_env("TEST_DB_POOL_SIZE") |> Integer.parse() |> elem(0) || 1
+  pool_size: (System.get_env("DB_POOL_SIZE") || "10") |> Integer.parse() |> elem(0)
 ```
 
 Note that in your `.circleci/config.yml`, you are configuring your database access credentials. This is because on the CircleCI server, a new database is set up (in docker), which your application will connect to. In order to let it connect to that database, you're configuring your `config/test.exs`. It is important that when you run `mix test` locally, you'll want to use the remotemysql database whilst when the same command is ran on the CircleCI platform, it should then use the local databse. Now you'll want to export these values so that your database can use this:
