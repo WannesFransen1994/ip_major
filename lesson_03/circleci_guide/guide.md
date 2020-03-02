@@ -419,6 +419,8 @@ Now run your tests and see what happens. The ouput is still the same, but now we
 
 ### Aggregating our test reports
 
+**NOTE: This step will only work after the next step (where you make the folder).**
+
 While we could point our CircleCI config to the upperlying folder and let it recursively scan for all test `.xml` files, that's a bit error prone. We'll aggregate our test reports in a single folder. We do this with the following config in our `config/config.exs` file:
 
 ```elixir
@@ -453,7 +455,7 @@ What we don't want to do though is push this on our version control! As they hav
 
 #### Ignoring our test reports folder
 
-Add the following lines to your `.gignore` file:
+Add the following lines to your `.gitignore` file:
 
 ```text
 # Custom ignore rules
