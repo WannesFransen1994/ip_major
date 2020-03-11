@@ -3,7 +3,7 @@
 You've already seen how to create the schema and migration. You should know what this is used for. Here we'll focus on the create operation from CRUD. Create an umbrella application where the web project is apart from the actual logic / model project.
 
 ```bash
-mix phx.new user_demo --umbrella --database mysql --no-webpack
+mix phx.new user_demo --umbrella --database mysql
 ```
 
 ## Migration and schema
