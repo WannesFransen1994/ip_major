@@ -221,7 +221,7 @@ Then we'll create the templates. First we'll create the folder `templates/user/`
 <%= error_tag f, :last_name %>
 
 <%= label f, :date_of_birth %>
-<%= date_select f, :date_of_birth %>
+<%= date_select f, :date_of_birth, year: [options: 1910..2020] %>
 <%= error_tag f, :date_of_birth %>
 
 <div>
