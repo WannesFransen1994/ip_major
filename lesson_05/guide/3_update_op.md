@@ -70,7 +70,7 @@ Add this to every row, the show page as well if you want to, and then let us cre
 <%= error_tag f, :last_name %>
 
 <%= label f, :date_of_birth %>
-<%= date_select f, :date_of_birth %>
+<%= date_select f, :date_of_birth, year: [options: 1910..2020] %>
 <%= error_tag f, :date_of_birth %>
 
 <div>

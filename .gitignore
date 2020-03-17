@@ -1,6 +1,9 @@
 ./references
 ./references/*
 references/
+./extra
+./extra/*
+extra/
 *.pdf
 
 # Created by https://www.gitignore.io/api/latex

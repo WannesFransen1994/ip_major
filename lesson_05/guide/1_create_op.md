@@ -3,7 +3,7 @@
 You've already seen how to create the schema and migration. You should know what this is used for. Here we'll focus on the create operation from CRUD. Create an umbrella application where the web project is apart from the actual logic / model project.
 
 ```bash
-mix phx.new user_demo --umbrella --database mysql --no-webpack
+mix phx.new user_demo --umbrella --database mysql
 ```
 
 ## Migration and schema
@@ -186,7 +186,7 @@ end
 
 For now let us forget that we're still missing our view and templates. We can see the `new/2` and `create/2` actions. For the `new/2` action, we create a changeset as forms need these to render themselves. Because it is new, we'll create a new struct and pass it as a parameter. Then when we render the template, we pass the changeset so that we can use it later on.
 
-The `create/2` action on the other hand, will receive some parameters from the post requests. These are already parsed thanks to the plugs in the `:browser` pipeline. We use there attributes to create a new user, and if no errors are present we'll execute the pattern matched statement and redirect to a new form (for now). Otherwise you'll render that same form again with the necessary errors.
+The `create/2` action on the other hand, will receive some parameters from the post requests. These are already parsed thanks to the plugs in the `:browser` pipeline. We use these attributes to create a new user, and if no errors are present we'll execute the pattern matched statement and redirect to a new form (for now). Otherwise you'll render that same form again with the necessary errors.
 
 ## The view
 
@@ -221,7 +221,7 @@ Then we'll create the templates. First we'll create the folder `templates/user/`
 <%= error_tag f, :last_name %>
 
 <%= label f, :date_of_birth %>
-<%= date_select f, :date_of_birth %>
+<%= date_select f, :date_of_birth, year: [options: 1910..2020] %>
 <%= error_tag f, :date_of_birth %>
 
 <div>
