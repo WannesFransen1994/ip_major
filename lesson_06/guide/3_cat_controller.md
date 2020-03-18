@@ -36,7 +36,7 @@ We've already got a great example for the root path, let's create a new scope fo
 You can see that we created nested resources in the above code snippet. Though it seems that there's a lot of magic happening here, let us quickly go over this:
 
 * scope "/" -> resources "/users" => is for the html interface to edit our users.
-* scope "/" -> resources "/users", only: [] => means that we're generating routes for our user as well. Thanks to the [resources macro](https://hexdocs.pm/phoenix/Phoenix.Router.html#resources/4), we can configure this and say that we don't want REST routes for the users resource.
+* scope "/api" -> resources "/users", only: [] => means that we're generating routes for our user as well. Thanks to the [resources macro](https://hexdocs.pm/phoenix/Phoenix.Router.html#resources/4), we can configure this and say that we don't want REST routes for the users resource.
 * resources "/cats", CatController => means that we're going to allow (nested if it is inside another resources block) cat routes for our REST API.
 
 ## Pipelines
