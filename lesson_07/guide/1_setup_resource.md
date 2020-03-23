@@ -24,7 +24,7 @@ After which we add the resources routes as well. Next we'll configure that our p
 
 add this to your mix.exs of your model project in e.g. `apps/auth`.
 
-_Note that windows can have some issues with compiling this module. Feel free to use bcrypt._
+_Note that windows can have some issues with compiling this module. Feel free to use pbkdf2._
 
 ### Schema
 
