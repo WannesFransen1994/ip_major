@@ -54,7 +54,6 @@ module.exports = {
     ]
   }
 };
-};
 ```
 In the code the entry point is our main.js because this is the file we want to include. As output we want a file named bundle.js. This is the same file we referred to in our .html file. Next we included a loader which matches against all .css files. When matches it uses both the style-loader and the css-loader.
 
