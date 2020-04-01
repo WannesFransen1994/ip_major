@@ -71,8 +71,8 @@ index.html
 ```html
 <!doctype html>
   <body>
-    <button id="secret-button">Show the Secret</button>
-    <p id="secret-paragraph">The answer to life the universe and everything = 42</p>
+    <button id="button">Show the Secret</button>
+    <p id="paragraph">The answer to life the universe and everything = 42</p>
     <script src="dist/js/app_bundle.js"></script>
   </body>
 </html>
