@@ -18,7 +18,7 @@ Next navigate to the template folder and open the 'index.html.eex' file. This is
   <button id="button">Show the Secret</button>
   <p id="paragraph">The answer to life the universe and everything = 42</p>
 ```
-Next ze open the webpack.config.js file again in 'apps/a_webpack_demo_web/assets/js'. Here we can see full configuration. If you want you can alter the webpack configuration in this file. You will do so later on in this guide. For now it is important to see the entry point webpack will use to build its internal dependency graph, open this entry point file and add the following line at the bottom of this file. This imports our secret.js file so now the app.js file depends on secret.js so this will be included in our dependencie graph and eventually included in our output bundle.
+Next we open the webpack.config.js file again in 'apps/a_webpack_demo_web/assets/js'. Here we can see full configuration. If you want you can alter the webpack configuration in this file. You will do so later on in this guide. For now it is important to see the entry point webpack will use to build its internal dependency graph, open this entry point file and add the following line at the bottom of this file. This imports our secret.js file so now the app.js file depends on secret.js so this will be included in our dependency graph and eventually included in our output bundle.
 
 ```js
 import './secret.js'
