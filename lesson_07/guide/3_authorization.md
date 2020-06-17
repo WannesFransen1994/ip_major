@@ -66,7 +66,7 @@ As you can wee we have 3 scopes, each one is for a specific role. While one coul
 
 ## Creating our plug
 
-We've seen plugs in action several times already. As you can see it'll transform the request several times until it is returned back as a response. An illustration of this proces could be found [here](https://www.brianstorti.com/assets/images/plug.png).
+We've seen plugs in action several times already. As you can see it'll transform the request several times until it is returned back as a response. An illustration of this process could be found [here](https://www.brianstorti.com/assets/images/plug.png).
 
 We'll write our own plug which checks whether a user has enough roles. Of course you don't want to write a plug for each role (e.g. "IsAdminPlug"), hence the use of the options in our router. An example plug would be:
 
